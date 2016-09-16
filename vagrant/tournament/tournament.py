@@ -8,7 +8,11 @@ import psycopg2
 
 def connect():
     """Connect to the PostgreSQL database.  Returns a database connection."""
-    return psycopg2.connect("dbname=tournament")
+    try:
+        return psycopg2.connect("dbname=tournament")
+    except:
+        print("Cannot connect to database")
+    
 
 
 def deleteMatches():
@@ -85,10 +89,10 @@ def swissPairings():
     """
     standings = playerStandings()
     pairings = []
-    i = 0
-    while i < len(standings):
+    
+    for i in range(0, len(standings), 2):
         pairings.append((standings[i][0],standings[i][1],standings[i+1][0],standings[i+1][1]))
-        i += 2
+        
     for pairing in pairings:    
         print pairings    
     return pairings   
